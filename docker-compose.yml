@@ -12,7 +12,8 @@ services:
       RABBITMQ_DEFAULT_VHOST: "/"
       RABBITMQ_ERLANG_COOKIE: "cookie"
     ports:
-        - 15670:15672
+        - "5670:5672"
+        - "15670:15672"
     volumes:
         - ./rabbitmq_node_1/data/:/var/lib/rabbitmq
         - ./rabbitmq_node_1/log/:/var/log/rabbitmq
@@ -27,7 +28,8 @@ services:
       RABBITMQ_DEFAULT_VHOST: "/"
       RABBITMQ_ERLANG_COOKIE: "cookie"
     ports:
-        - 15671:15672
+        - "5671:5672"
+        - "15671:15672"
     volumes:
         - ./rabbitmq_node_2/data/:/var/lib/rabbitmq
         - ./rabbitmq_node_2/log/:/var/log/rabbitmq
@@ -44,10 +46,24 @@ services:
       RABBITMQ_DEFAULT_VHOST: "/"
       RABBITMQ_ERLANG_COOKIE: "cookie"
     ports:
-        - 15672:15672
+        - "5672:5672"
+        - "15672:15672"
     volumes:
         - ./rabbitmq_node_3/data/:/var/lib/rabbitmq
         - ./rabbitmq_node_3/log/:/var/log/rabbitmq
     depends_on:
       - rmq_1
 
+  haproxy:
+    image: "haproxy:alpine"
+    container_name: haproxy_balancer
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+
+#networks:
+#  default:
+#    external:
+#      name: develop
