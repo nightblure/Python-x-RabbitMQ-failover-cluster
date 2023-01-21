@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+
+  rmq_1:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq_node_1
+    hostname: rabbit_node_1
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin"
+      RABBITMQ_DEFAULT_VHOST: "/"
+      RABBITMQ_ERLANG_COOKIE: "cookie"
+    ports:
+        - 15670:15672
+    volumes:
+        - ./rabbitmq_node_1/data/:/var/lib/rabbitmq
+        - ./rabbitmq_node_1/log/:/var/log/rabbitmq
+
+  rmq_2:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq_node_2
+    hostname: rabbit_node_2
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin"
+      RABBITMQ_DEFAULT_VHOST: "/"
+      RABBITMQ_ERLANG_COOKIE: "cookie"
+    ports:
+        - 15671:15672
+    volumes:
+        - ./rabbitmq_node_2/data/:/var/lib/rabbitmq
+        - ./rabbitmq_node_2/log/:/var/log/rabbitmq
+    depends_on:
+      - rmq_1
+
+  rmq_3:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq_node_3
+    hostname: rabbit_node_3
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin"
+      RABBITMQ_DEFAULT_VHOST: "/"
+      RABBITMQ_ERLANG_COOKIE: "cookie"
+    ports:
+        - 15672:15672
+    volumes:
+        - ./rabbitmq_node_3/data/:/var/lib/rabbitmq
+        - ./rabbitmq_node_3/log/:/var/log/rabbitmq
+    depends_on:
+      - rmq_1
+
