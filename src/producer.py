@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-import os
 
 import pika
-import time
 
 from src.settings import RABBITMQ_BROKER_URL
 
@@ -27,7 +25,7 @@ from src.settings import RABBITMQ_BROKER_URL
 
 
 def main():
-    parameters = pika.URLParameters(f'http://localhost:443/') # RABBITMQ_BROKER_URL
+    parameters = pika.URLParameters(RABBITMQ_BROKER_URL) # RABBITMQ_BROKER_URL f'localhost:443/'
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
 
