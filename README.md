@@ -3,15 +3,15 @@ Implementing a simple consumer and a RabbitMQ failover cluster in Docker
 
 **Commands** (from **cmd** or **container terminal** without ```docker exec -it <container_name> <command>```):
 
-1. **Up** docker-containers: ```docker-compose up -d```
+**Up** docker-containers: ```docker-compose up -d```
 
-2. **Connect** slave nodes to master node:
+**Connect** slave nodes to master node:
 * ```rabbitmqctl stop_app```
 * ```rabbitmqctl reset```
 * ```rabbitmqctl join_cluster rabbit@rabbit_node_1```
 * ```rabbitmqctl start_app```
-* 
-3. **Check** the **3 nodes** **in the cluster** in the monitoring interface: ```http://localhost:15670/```
+
+**Check** the **3 nodes** **in the cluster** in the monitoring interface: ```http://localhost:15670/```
 or any node's terminal: ```rabbitmqctl cluster_status```
 
 ---

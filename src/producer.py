@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
+import time
 
 import pika
 
-from src.settings import RABBITMQ_BROKER_URL
+from src.settings import FIRST_NODE_URL, SECOND_NODE_URL
+from src.utils import get_broker_connection, send_message
 
 """
 
@@ -25,17 +27,19 @@ from src.settings import RABBITMQ_BROKER_URL
 
 
 def main():
-    parameters = pika.URLParameters(RABBITMQ_BROKER_URL) # RABBITMQ_BROKER_URL f'localhost:443/'
-    connection = pika.BlockingConnection(parameters)
-    channel = connection.channel()
+    first_channel = get_broker_connection(FIRST_NODE_URL).channel()
+    second_channel = get_broker_connection(SECOND_NODE_URL).channel()
 
-    for i in range(5):
+    for i in range(1, 11):
         body = f'test msg №{i}'
-        encoded_body = str.encode(body, encoding='utf-8')
-        channel.basic_publish(exchange='test', routing_key='key1', body=encoded_body)
-        print(f"Sent '{body}'")
 
-    connection.close()
+        time.sleep(1)
+        send_message(first_channel, body, 'ex1', 'key')
+        time.sleep(1)
+        send_message(second_channel, body, 'ex2', 'key')
+
+    first_channel.close()
+    second_channel.close()
 
 
 if __name__ == '__main__':

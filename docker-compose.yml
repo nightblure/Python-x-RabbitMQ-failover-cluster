@@ -54,11 +54,11 @@ services:
     depends_on:
       - rmq_1
 
-#  haproxy:
-#    image: "haproxy:alpine"
-#    container_name: haproxy_balancer
-#    ports:
-#      - "80:80"
-#      - "443:443"
-#    volumes:
-#      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+  haproxy:
+    image: "haproxy:alpine"
+    container_name: haproxy_balancer
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
