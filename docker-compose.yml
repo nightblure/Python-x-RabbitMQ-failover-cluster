@@ -10,11 +10,15 @@ services:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "admin"
       RABBITMQ_DEFAULT_VHOST: "/"
-      RABBITMQ_ERLANG_COOKIE: "cookie"
-    ports:
-        - "5670:5672"
-        - "15670:15672"
-#    volumes:
+#      RABBITMQ_ERLANG_COOKIE: "cookie"
+#    ports:
+#        - "5670:5672"
+#        - "15670:15672"
+    volumes:
+      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
+    entrypoint:
+      - /usr/local/bin/entrypoint.sh
 #        - ./rabbitmq_node_1/data/:/var/lib/rabbitmq
 #        - ./rabbitmq_node_1/log/:/var/log/rabbitmq
 
@@ -22,15 +26,21 @@ services:
     image: rabbitmq:management-alpine
     container_name: rabbitmq_node_2
     hostname: rabbit_node_2
+    env_file:
+      - ./.envs
     environment:
-      RABBITMQ_DEFAULT_USER: "admin"
-      RABBITMQ_DEFAULT_PASS: "admin"
+      RABBITMQ_DEFAULT_USER: ${RMQ_ADMIN}
+      RABBITMQ_DEFAULT_PASS: ${RMQ_ADMIN_PASSWORD}
       RABBITMQ_DEFAULT_VHOST: "/"
-      RABBITMQ_ERLANG_COOKIE: "cookie"
+#      RABBITMQ_ERLANG_COOKIE: "cookie"
     ports:
-        - "5671:5672"
-        - "15671:15672"
-#    volumes:
+#        - "5671:5672"
+        - "15672:15672"
+    volumes:
+      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
+    entrypoint:
+      - /usr/local/bin/entrypoint.sh
 #        - ./rabbitmq_node_2/data/:/var/lib/rabbitmq
 #        - ./rabbitmq_node_2/log/:/var/log/rabbitmq
     depends_on:
@@ -44,34 +54,30 @@ services:
       RABBITMQ_DEFAULT_USER: "admin"
       RABBITMQ_DEFAULT_PASS: "admin"
       RABBITMQ_DEFAULT_VHOST: "/"
-      RABBITMQ_ERLANG_COOKIE: "cookie"
-    expose:
-      - 5672
-      - 15672
-    ports:
-        - "5672:5672"
-        - "15672:15672"
-#    volumes:
+#      RABBITMQ_ERLANG_COOKIE: "cookie"
+#    ports:
+#        - "5672:5672"
+#        - "15672:15672"
+    volumes:
+      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
+    entrypoint:
+      - /usr/local/bin/entrypoint.sh
 #        - ./rabbitmq_node_3/data/:/var/lib/rabbitmq
 #        - ./rabbitmq_node_3/log/:/var/log/rabbitmq
-        # dont know why doesnt work :(
-        # env variable RABBITMQ_ERLANG_COOKIE deprecated now!!
-#        - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
     depends_on:
       - rmq_1
 
   haproxy:
-    image: haproxy:alpine
+    image: haproxy:1.7-alpine
     container_name: haproxy
+    hostname: haproxy
     # open port 567X for other containers
 #    expose:
 #      - 5673
     ports:
       - "5673:5673"
       - "8100:8100"
+      - "15763:15762"
     volumes:
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-    depends_on:
-      - rmq_1
-      - rmq_2
-      - rmq_3
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
