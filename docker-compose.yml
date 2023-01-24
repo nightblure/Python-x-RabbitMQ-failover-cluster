@@ -14,9 +14,9 @@ services:
     ports:
         - "5670:5672"
         - "15670:15672"
-    volumes:
-        - ./rabbitmq_node_1/data/:/var/lib/rabbitmq
-        - ./rabbitmq_node_1/log/:/var/log/rabbitmq
+#    volumes:
+#        - ./rabbitmq_node_1/data/:/var/lib/rabbitmq
+#        - ./rabbitmq_node_1/log/:/var/log/rabbitmq
 
   rmq_2:
     image: rabbitmq:management-alpine
@@ -30,9 +30,9 @@ services:
     ports:
         - "5671:5672"
         - "15671:15672"
-    volumes:
-        - ./rabbitmq_node_2/data/:/var/lib/rabbitmq
-        - ./rabbitmq_node_2/log/:/var/log/rabbitmq
+#    volumes:
+#        - ./rabbitmq_node_2/data/:/var/lib/rabbitmq
+#        - ./rabbitmq_node_2/log/:/var/log/rabbitmq
     depends_on:
       - rmq_1
 
@@ -51,9 +51,9 @@ services:
     ports:
         - "5672:5672"
         - "15672:15672"
-    volumes:
-        - ./rabbitmq_node_3/data/:/var/lib/rabbitmq
-        - ./rabbitmq_node_3/log/:/var/log/rabbitmq
+#    volumes:
+#        - ./rabbitmq_node_3/data/:/var/lib/rabbitmq
+#        - ./rabbitmq_node_3/log/:/var/log/rabbitmq
         # dont know why doesnt work :(
         # env variable RABBITMQ_ERLANG_COOKIE deprecated now!!
 #        - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
@@ -65,9 +65,9 @@ services:
     container_name: haproxy
     # open port 567X for other containers
 #    expose:
-#      - 5675
+#      - 5673
     ports:
-      - "8000:8000"
+      - "5673:5673"
       - "8100:8100"
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
