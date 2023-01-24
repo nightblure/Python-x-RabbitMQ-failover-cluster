@@ -30,10 +30,13 @@ def main():
     first_channel = get_broker_connection(FIRST_NODE_URL).channel()
     second_channel = get_broker_connection(SECOND_NODE_URL).channel()
 
-    for i in range(1, 11):
+    credentials = pika.PlainCredentials('admin', 'admin')
+    parameters = pika.ConnectionParameters(host='localhost', port=8000, credentials=credentials)
+    connection = pika.BlockingConnection(parameters)
+
+    for i in range(1, 6):
         body = f'test msg №{i}'
 
-        time.sleep(1)
         send_message(first_channel, body, 'ex1', 'key')
         time.sleep(1)
         send_message(second_channel, body, 'ex2', 'key')

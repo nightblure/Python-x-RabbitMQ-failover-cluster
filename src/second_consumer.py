@@ -5,7 +5,7 @@ from src.settings import SECOND_NODE_URL
 from src.utils import start_consuming
 
 
-def on_receive_msg_callback(ch, method, properties, body):
+def on_receive_msg_callback(channel, method, properties, body):
     print(f'Received: {body.decode()}')
 
 
