@@ -3,7 +3,7 @@ import time
 
 import pika
 
-from src.settings import FIRST_NODE_URL
+from src.settings import RMQ_ADMIN_LOGIN, RMQ_ADMIN_PASSWORD
 from src.utils import get_broker_connection, send_message
 
 """
@@ -29,8 +29,8 @@ from src.utils import get_broker_connection, send_message
 def main():
     # channel = get_broker_connection(FIRST_NODE_URL).channel()
 
-    credentials = pika.PlainCredentials('admin', 'admin')
-    parameters = pika.ConnectionParameters(host='localhost', port=5673, credentials=credentials)
+    credentials = pika.PlainCredentials(RMQ_ADMIN_LOGIN, RMQ_ADMIN_PASSWORD)
+    parameters = pika.ConnectionParameters(host='localhost', port=5672, credentials=credentials)
     connection = pika.BlockingConnection(parameters)
 
     # for i in range(1, 6):

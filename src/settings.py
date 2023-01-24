@@ -1,12 +1,17 @@
 import os
+from pathlib import Path
 
-ADMIN_LOGIN = 'admin'
-ADMIN_PASSWORD = 'admin'
+from dotenv import load_dotenv
 
-RABBITMQ_HOST = 'rabbitmq_node_1' if 'FROM_DOCKER_COMPOSE' in os.environ else 'localhost'
+ROOT_DIR = Path(__file__).resolve().parent.parent
+ENV_PATH = ROOT_DIR / '.envs'
 
-FIRST_NODE_PORT = 5670
-FIRST_NODE_URL = f'amqp://{ADMIN_LOGIN}:{ADMIN_PASSWORD}@{RABBITMQ_HOST}:{FIRST_NODE_PORT}'
+load_dotenv(ENV_PATH)
 
-# LOAD_BALANCER_HOST = 'haproxy' if 'FROM_DOCKER_COMPOSE' in os.environ else 'localhost'
-# LOAD_BALANCER_PORT = 8000
+RMQ_ADMIN_LOGIN = os.environ['RMQ_ADMIN_LOGIN']
+RMQ_ADMIN_PASSWORD = os.environ['RMQ_ADMIN_PASSWORD']
+
+LOAD_BALANCER_HOST = 'haproxy' if 'FROM_DOCKER_COMPOSE' in os.environ else 'localhost'
+LOAD_BALANCER_PORT = os.environ['LOAD_BALANCER_PORT']
+
+# FIRST_NODE_URL = f'amqp://{ADMIN_LOGIN}:{ADMIN_PASSWORD}@{RABBITMQ_HOST}:{FIRST_NODE_PORT}'
