@@ -7,10 +7,10 @@ services:
     container_name: rabbitmq_node_1
     hostname: rabbit_node_1
     environment:
-      RABBITMQ_DEFAULT_USER: "admin"
-      RABBITMQ_DEFAULT_PASS: "admin"
-      RABBITMQ_DEFAULT_VHOST: "/"
-      RABBITMQ_ERLANG_COOKIE: "cookie"
+      - RABBITMQ_DEFAULT_USER = ${RMQ_ADMIN_LOGIN}
+      - RABBITMQ_DEFAULT_PASS = ${RMQ_ADMIN_PASSWORD}
+      - RABBITMQ_DEFAULT_VHOST = "/"
+      - RABBITMQ_ERLANG_COOKIE = "cookie"
 #    volumes:
 #      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
 #      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
@@ -22,13 +22,11 @@ services:
     image: rabbitmq:management-alpine
     container_name: rabbitmq_node_2
     hostname: rabbit_node_2
-    env_file:
-      - .envs
     environment:
-      RABBITMQ_DEFAULT_USER: ${RMQ_ADMIN}
-      RABBITMQ_DEFAULT_PASS: ${RMQ_ADMIN_PASSWORD}
-      RABBITMQ_DEFAULT_VHOST: "/"
-      RABBITMQ_ERLANG_COOKIE: "cookie"
+      - RABBITMQ_DEFAULT_USER = ${RMQ_ADMIN_LOGIN}
+      - RABBITMQ_DEFAULT_PASS = ${RMQ_ADMIN_PASSWORD}
+      - RABBITMQ_DEFAULT_VHOST = "/"
+      - RABBITMQ_ERLANG_COOKIE = "cookie"
 #    volumes:
 #      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
 #      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
@@ -44,10 +42,10 @@ services:
     container_name: rabbitmq_node_3
     hostname: rabbit_node_3
     environment:
-      RABBITMQ_DEFAULT_USER: "admin"
-      RABBITMQ_DEFAULT_PASS: "admin"
-      RABBITMQ_DEFAULT_VHOST: "/"
-      RABBITMQ_ERLANG_COOKIE: "cookie"
+      - RABBITMQ_DEFAULT_USER = ${RMQ_ADMIN_LOGIN}
+      - RABBITMQ_DEFAULT_PASS = ${RMQ_ADMIN_PASSWORD}
+      - RABBITMQ_DEFAULT_VHOST = "/"
+      - RABBITMQ_ERLANG_COOKIE = "cookie"
 #    volumes:
 #      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
 #      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
