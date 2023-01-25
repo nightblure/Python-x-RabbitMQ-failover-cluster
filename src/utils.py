@@ -7,6 +7,13 @@ def get_broker_connection(broker_url):
     return connection
 
 
+def get_connection(host, port, login, password):
+    credentials = pika.PlainCredentials(login, password)
+    parameters = pika.ConnectionParameters(host=host, port=port, credentials=credentials)
+    connection = pika.BlockingConnection(parameters)
+    return connection
+
+
 def send_message(channel, body, exchange, routing_key):
     encoded_body = str.encode(body, encoding='utf-8')
     channel.basic_publish(exchange=exchange, routing_key=routing_key, body=encoded_body)
