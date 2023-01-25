@@ -9,17 +9,8 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RMQ_ADMIN_LOGIN}
       RABBITMQ_DEFAULT_PASS: ${RMQ_ADMIN_PASSWORD}
-#     RABBITMQ_DEFAULT_VHOST: "/"
-#     RABBITMQ_ERLANG_COOKIE: "cookie"
     volumes:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
-#      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
-#    command: sh -c "
-#        ./usr/local/bin/entrypoint.sh
-#      "
-#    entrypoint: /usr/local/bin/entrypoint.sh
-#      - ./rabbitmq_node_1/data/:/var/lib/rabbitmq
-#      - ./rabbitmq_node_1/log/:/var/log/rabbitmq
 
   rmq_2:
     image: rabbitmq:management-alpine
@@ -28,15 +19,12 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RMQ_ADMIN_LOGIN}
       RABBITMQ_DEFAULT_PASS: ${RMQ_ADMIN_PASSWORD}
-#     RABBITMQ_DEFAULT_VHOST: "/"
-#     RABBITMQ_ERLANG_COOKIE: "cookie"
     volumes:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
-#      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
-#    entrypoint:
-#      - /usr/local/bin/entrypoint.sh
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
 #        - ./rabbitmq_node_2/data/:/var/lib/rabbitmq
 #        - ./rabbitmq_node_2/log/:/var/log/rabbitmq
+    entrypoint: /usr/local/bin/entrypoint.sh
     depends_on:
       - rmq_1
 
@@ -47,16 +35,14 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RMQ_ADMIN_LOGIN}
       RABBITMQ_DEFAULT_PASS: ${RMQ_ADMIN_PASSWORD}
-#     RABBITMQ_DEFAULT_VHOST: "/"
-#     RABBITMQ_ERLANG_COOKIE: "cookie"
     volumes:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
-#      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
-#    entrypoint: /usr/local/bin/entrypoint.sh
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
 #        - ./rabbitmq_node_3/data/:/var/lib/rabbitmq
 #        - ./rabbitmq_node_3/log/:/var/log/rabbitmq
+    entrypoint: /usr/local/bin/entrypoint.sh
     depends_on:
-      - rmq_1
+      - rmq_2
 
   haproxy:
     image: haproxy:1.7-alpine
