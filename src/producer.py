@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+import sys
 import time
 
-import pika
+from pika.exceptions import ConnectionClosedByBroker
+from retry import retry
 
-from src.settings import RMQ_ADMIN_LOGIN, RMQ_ADMIN_PASSWORD
 from src.utils import get_connection, send_message
 
 """
@@ -26,16 +27,25 @@ from src.utils import get_connection, send_message
 """
 
 
+@retry(Exception, delay=3)
 def main():
-    print(RMQ_ADMIN_LOGIN, RMQ_ADMIN_PASSWORD)
-    channel = get_connection('localhost', 5672, RMQ_ADMIN_LOGIN, RMQ_ADMIN_PASSWORD).channel()
+    channel = get_connection().channel()
 
-    # for i in range(1, 6):
-    #     body = f'test msg №{i}'
-    #     send_message(channel, body, 'ex1', 'key')
-    #     time.sleep(1)
-    #
-    # channel.close()
+    try:
+
+        for i in range(1, 101):
+            body = f'test msg №{i}'
+            send_message(channel, body, 'ex', 'key')
+            time.sleep(1)
+            i += 1
+
+    except KeyboardInterrupt:
+        print('Stopped')
+        sys.exit(0)
+    except ConnectionClosedByBroker:
+        print('Try to reconnect...')
+    finally:
+        channel.close()
 
 
 if __name__ == '__main__':

@@ -9,6 +9,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RMQ_ADMIN_LOGIN}
       RABBITMQ_DEFAULT_PASS: ${RMQ_ADMIN_PASSWORD}
+      RABBITMQ_DEFAULT_VHOST: "/"
     volumes:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
 
@@ -19,6 +20,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RMQ_ADMIN_LOGIN}
       RABBITMQ_DEFAULT_PASS: ${RMQ_ADMIN_PASSWORD}
+      RABBITMQ_DEFAULT_VHOST: "/"
     volumes:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
@@ -35,6 +37,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RMQ_ADMIN_LOGIN}
       RABBITMQ_DEFAULT_PASS: ${RMQ_ADMIN_PASSWORD}
+      RABBITMQ_DEFAULT_VHOST: "/"
     volumes:
       - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
       - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
