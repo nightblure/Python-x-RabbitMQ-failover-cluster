@@ -11,7 +11,7 @@ Run command ```docker-compose up -d```
 ---
 
 ## Deployment errors
-In case of errors with ```docker-compose up -d```, containers will have to be deployed using the ```docker-compose --file=docker-composed.yml up -d``` and execute the commands below **manually for each slave node** (see below):
+In case of errors with ```docker-compose up -d```, containers will have to be deployed using the ```docker-compose --file=docker-composed.yml up -d``` and execute the commands below **manually for each slave node** (see below)
 
 ---
 
